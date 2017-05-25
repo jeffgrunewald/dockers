@@ -1,0 +1,20 @@
+require 'rake'
+require 'docker'
+require 'rspec/core/rake_task'
+
+task :default => :test
+
+RSpec::Core::RakeTask.new(:spec) do |t|
+  t.pattern = Dir.glob('spec/*_spec.rb')
+  t.rspec_opts = '--color'
+end
+
+desc 'Remove dangling docker images'
+task :cleanup do
+  system "docker image prune -f"
+end
+
+task :test => [
+  :spec,
+  :cleanup
+]

@@ -1,0 +1,21 @@
+#!/bin/sh -e
+
+VERSION=2.3
+
+if (! docker images | grep "openstackcli" > /dev/null); then
+  docker pull jeffgrunewald/openstackcli:"${VERSION}"
+fi
+
+if [ ! -z "${1}" ]; then
+  OS_CMD="openstack ${@}"
+else
+  OS_CMD="openstack server list"
+fi
+
+/usr/bin/docker run -e OS_AUTH_URL="${OS_AUTH_URL}" \
+                    -e OS_PASSWORD="${OS_PASSWORD}" \
+                    -e OS_PROJECT_NAME="${OS_PROJECT_NAME}" \
+                    -e OS_USERNAME="${OS_USERNAME}" \
+                    --rm -ti \
+                    jeffgrunewald/openstackcli:"${VERSION}" \
+                    ${OS_CMD}

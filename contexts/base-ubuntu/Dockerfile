@@ -41,8 +41,8 @@ RUN echo "${timezone}" > /etc/timezone \
 RUN groupadd --gid ${user_id} --system ${user_name} \
  && useradd --gid ${user_name} --system --uid ${user_id} ${user_name}
 
-COPY Dockerfile /opt/Dockerfile-baseimage
-COPY README.md /opt/README-baseimage.md
+COPY Dockerfile /opt/Dockerfile-base-ubuntu
+COPY README.md /opt/README-base-ubuntu.md
 
 ENTRYPOINT ["/bin/smell-baron"]
 

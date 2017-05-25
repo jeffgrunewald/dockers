@@ -1,7 +1,7 @@
 MAINTAINER?=jeffgrunewald
 NAME?=base-ubuntu
 TAG?=$(shell date +%Y%m%d-%H%M)
-SHA?=$(shell git rev-parse head)
+SHA?=$(shell git rev-parse HEAD)
 
 default:
 	@echo "Usage: make [target] <ENVVAR=value>"

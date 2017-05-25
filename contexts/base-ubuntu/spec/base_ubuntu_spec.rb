@@ -2,7 +2,7 @@ require 'spec_helper'
 
 image_name = 'base-ubuntu'
 env_vars = {}
-command = {'Cmd' => ["ping", "8.8.8.8"]}
+command = {'Cmd' => ["gosu", "phillipfry", "ping", "8.8.8.8"]}
 timezone = 'America/New_York'
 
 describe "Dockerfile" do

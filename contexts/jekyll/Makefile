@@ -1,3 +1,3 @@
 include ../../Makefile
 
-NAME?=base-ubuntu
+NAME?=jekyll

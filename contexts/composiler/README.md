@@ -37,6 +37,8 @@ OUTFILE:     Defaults to docker-compose.yml; the name of the resulting
              compose file desired. This is good for flagging the compose
              file generated as a deployment artifact for documentation,
              auditing, and rollbacks.
+STACK_NAME:  Defaults to `stack`; the name of the docker service stack to
+             deploy to the swarm when deploying via swarm mode.
 TEMPLATES:   A series of command line flags to select specific services,
              volumes, networks, or secrets definitions if a full, unified
              compose of all templates in the templates directory is

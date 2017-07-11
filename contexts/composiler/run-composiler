@@ -7,7 +7,7 @@ if test "${EXEC}" = true ; then
   if test "${MODE}" = "standalone" ; then
     docker-compose -f "/composiler/output/${OUTFILE}" up -d
   elif test "${MODE}" = "swarm" ; then
-    docker stack deploy -c "/composiler/output/${OUTFILE}"
+    docker stack deploy -c "/composiler/output/${OUTFILE}" ${STACK_NAME}
   else
     echo "You must select either 'standalone' or 'swarm' mode"
   fi

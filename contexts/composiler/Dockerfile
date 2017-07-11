@@ -10,10 +10,12 @@ ENV DOCKER_HOST="" \
     EXEC=true \
     MODE=standalone \
     OUTFILE=docker-compose.yml \
+    STACK_NAME=stack \
     TEMPLATES="" \    
     VERSION=3.3
 
 RUN apk --update add -q \
+           docker \
            py2-pip==9.0.1-r1 \
  && scm=https://github.com \
  && curl -L "${scm}/jeffgrunewald/composiler/releases/download/v${composiler_version}/composiler-${composiler_version}-linux-amd64" \

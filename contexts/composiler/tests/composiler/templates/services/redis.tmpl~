@@ -1,0 +1,6 @@
+redis:
+  image: jeffgrunewald/otherimage:v43
+  volume:
+    - {{.Volume}}:/data
+  environment:
+    - ENVVAR=something_meaningful

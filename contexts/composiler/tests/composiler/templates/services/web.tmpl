@@ -1,0 +1,6 @@
+web:
+  image: jeffgrunewald/someimage:v12
+  environment:
+    - ENV_TESTER={{.EnvTester}}.mydomain.com
+  ports:
+    - "{{.Port}}:80"

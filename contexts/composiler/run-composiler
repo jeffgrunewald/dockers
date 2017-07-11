@@ -1,0 +1,16 @@
+#!/bin/sh -e
+
+/usr/local/bin/composiler --out=${OUTFILE} \
+           --compose-version=${VERSION} ${TEMPLATES} ${ENVIRONMENT}
+
+if test "${EXEC}" = true ; then
+  if test "${MODE}" = "standalone" ; then
+    docker-compose -f "/composiler/output/${OUTFILE}" up -d
+  elif test "${MODE}" = "swarm" ; then
+    docker stack deploy -c "/composiler/output/${OUTFILE}"
+  else
+    echo "You must select either 'standalone' or 'swarm' mode"
+  fi
+else
+  echo "Please enjoy your new compose file"
+fi

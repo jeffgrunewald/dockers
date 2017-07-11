@@ -1,0 +1,3 @@
+FROM jeffgrunewald/composiler:20170711-0223
+
+COPY ./composiler/ /composiler/

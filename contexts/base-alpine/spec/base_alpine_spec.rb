@@ -1,8 +1,8 @@
 require 'spec_helper'
 
-image_name = 'base-ubuntu'
+image_name = 'base-alpine'
 env_vars = {}
-backend = :debian
+backend = :alpine
 command = {'Cmd' => ["gosu", "phillipfry", "ping", "8.8.8.8"]}
 timezone = 'America/New_York'
 
@@ -23,7 +23,6 @@ describe "Dockerfile" do
   end
 
   describe process("ping") do
-    its(:user) { should eq "phillipfry" }
     its(:args) { should match "8.8.8.8" }
   end
 

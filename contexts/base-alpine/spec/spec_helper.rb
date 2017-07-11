@@ -1,16 +1,2 @@
-require 'serverspec'
-require 'docker'
-
-set :backend, :exec
-
-def os_version
-  command('cat /etc/alpine-release').stdout
-end
-
-def apk_pkg pkg
-  command("apk info #{pkg}").exit_status
-end
-
-def pypi_pkg pkg
-  command("pip show #{pkg}").stdout
-end
+require_relative '../../../shared_specs/base_alpine_specs'
+require_relative '../../../shared_specs/spec_helper'

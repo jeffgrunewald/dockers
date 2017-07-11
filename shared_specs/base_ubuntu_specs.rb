@@ -21,6 +21,14 @@ shared_examples 'base::packages' do
   describe command('which vi') do
     its(:stdout) { should match '/usr/bin/vi' }
   end
+
+  describe command('confd --version 2>&1') do
+    its(:stdout) { should include 'confd 0.11.0' }
+  end
+
+  describe command('gosu --version 2>&1') do
+    its(:stdout) { should include 'version: 1.10' }
+  end
 end
 
 shared_examples 'base::files' do |image_name, env_vars|

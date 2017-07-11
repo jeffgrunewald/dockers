@@ -7,6 +7,7 @@ ARG docker_compose_version=1.14.0
 
 ENV DOCKER_HOST="" \
     ENVIRONMENT="" \
+    ENV_LIST="" \
     EXEC=true \
     MODE=standalone \
     OUTFILE=docker-compose.yml \
@@ -18,7 +19,8 @@ RUN apk --update add -q \
            docker \
            py2-pip==9.0.1-r1 \
  && scm=https://github.com \
- && curl -L "${scm}/jeffgrunewald/composiler/releases/download/v${composiler_version}/composiler-${composiler_version}-linux-amd64" \
+    repo=jeffgrunewald/composiler/releases/download \
+ && curl -L "${scm}/${repo}/v${composiler_version}/composiler-${composiler_version}-linux-amd64" \
             > /usr/local/bin/composiler \
  && pip install docker-compose==${docker_compose_version} \
  && apk del -q \
@@ -26,14 +28,17 @@ RUN apk --update add -q \
 
 VOLUME /composiler/output /var/run/docker.sock
 
-COPY run-composiler /composiler/
+COPY build-envfile run-composiler /composiler/
 
-RUN chmod a+x /usr/local/bin/composiler /composiler/run-composiler
+RUN chmod a+x /usr/local/bin/composiler \
+              /composiler/build-envfile \
+              /composiler/run-composiler
 
 COPY Dockerfile /opt/Dockerfile-composiler
 COPY README.md /opt/README-composiler.md
 
-CMD ["gosu", "phillipfry", "/composiler/run-composiler"]
+WORKDIR /composiler
+CMD ["gosu", "phillipfry", "./build-envfile", "---", "gosu", "phillipfry", "./run-composiler"]
 
 LABEL composiler_version=${composiler_version} \
       docker_compose_version=${docker_compose_version} \

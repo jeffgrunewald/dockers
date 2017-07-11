@@ -1,0 +1,7 @@
+#!/bin/sh -e
+
+if [ ! -z "${ENV_LIST}" ]; then
+  for envar in ${ENV_LIST}; do
+    echo ${envar} >> /composiler/output/compose.env
+  done
+fi

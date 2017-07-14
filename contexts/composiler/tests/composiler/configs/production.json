@@ -1,5 +1,9 @@
 {
-  "EnvTester":"production",
-  "Port":"80",
-  "Volume":"redis-production"
+  "Web": {
+    "EnvTester":"production",
+    "Port":"80"
+  },
+  "Redis": {
+    "Volume":"redis-production"
+  }
 }

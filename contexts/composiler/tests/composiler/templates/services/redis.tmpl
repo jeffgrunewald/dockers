@@ -1,6 +1,6 @@
 redis:
   image: jeffgrunewald/otherimage:v43
   volumes:
-    - {{.Volume}}:/data
+    - {{.Redis.Volume}}:/data
   environment:
     - ENVVAR=something_meaningful

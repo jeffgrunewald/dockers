@@ -2,21 +2,21 @@ FROM jeffgrunewald/base-alpine:20170711-0011
 
 ARG cache_date=2017-07-10
 
-ARG composiler_version=0.1.1
+ARG composiler_version=0.2.1
 ARG docker_compose_version=1.14.0
 
-ENV DOCKER_HOST="" \
+ENV DOCKER_HOST="unix:///var/run/docker.sock" \
     ENVIRONMENT="" \
     ENV_LIST="" \
     EXEC=true \
     MODE=standalone \
     OUTFILE=docker-compose.yml \
     STACK_NAME=stack \
-    TEMPLATES="" \    
+    TEMPLATES="" \
     VERSION=3.3
 
 RUN apk --update add -q \
-           docker \
+           docker==17.05.0-r0 \
            py2-pip==9.0.1-r1 \
  && scm=https://github.com \
     repo=jeffgrunewald/composiler/releases/download \

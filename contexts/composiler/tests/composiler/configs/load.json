@@ -1,5 +1,9 @@
 {
-  "EnvTester":"load",
-  "Port":"8080",
-  "Volume":"redis-load"
+  "Web": {
+    "EnvTester":"load",
+    "Port":"8080"
+  },
+  "Redis": {
+    "Volume":"redis-load"
+  }
 }

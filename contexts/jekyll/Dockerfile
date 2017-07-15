@@ -1,28 +1,36 @@
-FROM jeffgrunewald/base-ubuntu:16.04-1
-MAINTAINER Jeff Grunewald <jeff@grunewalddesign.com>
+FROM jeffgrunewald/base-alpine:20170711-0011
 
-ARG update_on=2017-04-08
+ARG cache_date=2017-07-15
+ARG jekyll_version=3.4.3
 
-RUN apt-get -qq update \
- && apt-get -yqq install \
+RUN apk update \
+ && apk add --no-cache \
+      build-base \
+      libffi-dev \
+      nodejs \
       ruby \
       ruby-dev \
-      build-essential \
-      nodejs \
-      zlib1g-dev
+      zlib-dev
 
 RUN gem install --no-rdoc --no-ri \
-      jekyll:3.4.3 \
+      jekyll:${jekyll_version} \
       jekyll-feed \
       jekyll-gist \
       jekyll-paginate \
       jekyll-sitemap \
       jemoji \
+      json \
       rb-pygments \
       redcarpet
 
-VOLUME ["/data/", "/var/www/html/"]
+VOLUME ["/data/", "/usr/share/nginx/html"]
 
 WORKDIR /data
 
-CMD ["jekyll", "build", "--watch", "--destination=/var/www/html"]
+COPY Dockerfile /opt/Dockerfile-jekyll
+
+CMD ["jekyll", "build", "--watch", "--destination=/usr/share/nginx/html"]
+
+LABEL cache_date=${cache_date} \
+      maintainer=jeff@grunewalddesign.com \
+      jekyll_version=${jekyll_version}

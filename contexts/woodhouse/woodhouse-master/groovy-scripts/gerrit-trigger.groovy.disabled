@@ -1,0 +1,36 @@
+// Set up gerrit server information so that the gerrit-trigger can be used within jobs
+// that trigger on gerrit events
+
+jenkins_home = System.getenv('JENKINS_HOME')
+gerritTrigger = com.sonyericsson.hudson.plugins.gerrit.trigger.PluginImpl.getInstance()
+
+String serverName = System.getenv('GERRIT_SERVER')
+boolean noConnectionOnStartup = false
+String hostName = System.getenv('GERRIT_FQDN')
+int sshPort = 8283
+String userName = System.getenv('GERRIT_USER')
+File authKeyFile = new File("${jenkins_home}/.ssh/gerrit_id_dsa")
+String authKeyPassword = null
+String frontEndUrl = "http://${hostName}/"
+
+server_doesnot_exist = (gerritTrigger.getServer(serverName) == null)
+
+if (server_doesnot_exist) {
+  gerrit_config = new com.sonyericsson.hudson.plugins.gerrit.trigger.config.Config()
+
+  gerrit_config.setGerritFrontEndURL(frontEndUrl)
+  gerrit_config.setGerritHostName(hostName)
+  gerrit_config.setGerritSshPort(sshPort)
+  gerrit_config.setGerritUserName(userName)
+  gerrit_config.setGerritAuthKeyFile(authKeyFile)
+  gerrit_config.setGerritAuthKeyFilePassword(authKeyPassword)
+  gerrit_config.setGerritFrontEndURL(frontEndUrl)
+
+  gerrit_server = new com.sonyericsson.hudons.plugins.gerrit.trigger.GerritServer(serverName, noConnectionOnStartup)
+  gerrit_server.setConfig(gerrit_config)
+
+  gerritTrigger.addServer(gerrit_server)
+
+  gerritTrigger.save()
+  gerritTrigger.start()
+}

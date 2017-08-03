@@ -1,0 +1,9 @@
+#!/bin/bash -e
+# setup SSH access to slave based on environment variables provided by master
+# AUTHORIZED_KEYS - content to place in ~/.ssh/authorized_keys
+
+ssh_dir='/home/woodhouse/.ssh'
+mkdir -p "${ssh_dir}"
+echo "${AUTHORIZED_KEYS}" > "${ssh_dir}/authorized_keys"
+chmod -R go-wrx "${ssh_dir}"
+chown -R woodhouse: "${ssh_dir}"

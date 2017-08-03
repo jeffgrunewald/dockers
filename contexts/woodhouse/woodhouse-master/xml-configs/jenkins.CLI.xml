@@ -1,0 +1,5 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Disable CLI remoting in global security configuration -->
+<jenkins.CLI>
+  <enabled>false</enabled>
+</jenkins.CLI>

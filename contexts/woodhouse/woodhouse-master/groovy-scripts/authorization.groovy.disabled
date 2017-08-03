@@ -1,0 +1,59 @@
+// Set up roles:
+//        admin - allowed to view and modify everything
+//        builder - allowed to view and build jobs
+//        non-admin - only allowed to view
+// Assign roles to permission groups:
+//        JENKINS_ADMINISTRATORS ldap group is assigned the admin role.
+//        any ldap authenticated user is assigned the builder role
+//        anonymous user (not authenticated) is assigned the non-admin role
+import com.michelin.cio.hudson.plugins.rolestrategy.Role
+import com.michelin.cio.hudson.plugins.rolestrategy.RoleBasedAuthorizationStrategy
+import com.michelin.cio.hudson.plugins.rolestrategy.RoleMap
+import hudson.security.Permission
+import hudson.security.PermissionGroup
+
+import static com.michelin.cio.hudson.plugins.rolestrategy.RoleBasedAuthorizationStrategy.GLOBAL
+import static com.michelin.cio.hudson.plugins.rolestrategy.RoleBasedAuthorizationStrategy.PROJECT
+import static com.michelin.cio.hudson.plugins.rolestrategy.RoleBasedAuthorizationStrategy.SLAVE
+
+jenkins_administrators = System.getenv('JENKINS_ADMINISTRATORS')
+
+instance = jenkins.model.Jenkins.getInstance()
+strategy = new RoleBasedAuthorizationStrategy()
+
+def adminPermissions() {
+  PermissionGroup.getAll().inject([]) { acc, group -> acc.addAll(group); acc }.toSet()
+}
+def builderPermissions() {
+  [
+    hudson.model.Item.CANCEL,
+    hudson.model.Item.READ,
+    hudson.model.Item.WORKSPACE,
+    hudson.model.Item.BUILD,
+    hudson.model.Item.DISCOVER
+  ].toSet()
+}
+
+def nonAdminPermissions() {
+  [
+    hudson.model.Hudson.READ,
+    hudson.model.Item.READ
+  ].toSet()
+}
+
+adminRole = new Role('admin', adminPermissions())
+strategy.addRole(GLOBAL, adminRole)
+strategy.assignRole(GLOBAL, adminRole, jenkins_administrators)
+
+builderRole = new Role('builder', builderPermissions())
+strategy.addRole(PROJECT, builderRole)
+strategy.assignRole(PROJECT, builderRole, 'authenticated')
+
+nonAdminRole = new Role('nonAdmin', nonAdminPermissions())
+strategy.addRole(GLOBAL, nonAdminRole)
+strategy.assignRole(GLOBAL, nonAdminRole, 'anonymous')
+strategy.assignRole(GLOBAL, nonAdminRole, 'authenticated')
+
+// strategy = new hudson.security.FullControlOnceLoggedInAuthorizationStrategy();
+instance.setAuthorizationStrategy(strategy)
+instance.save()

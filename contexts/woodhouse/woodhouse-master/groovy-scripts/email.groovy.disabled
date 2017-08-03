@@ -1,0 +1,20 @@
+// Set up the global email information
+jenkins_admin_email = System.getenv('JENKINS_ADMIN_EMAIL')
+smtp_server = System.getenv('SMTP_SERVER_ADDRESS')
+email_suffix = System.getenv('EMAIL_DOMAIN_SUFFIX')
+
+locationConfig = jenkins.model.JenkinsLocationConfiguration.get()
+locationConfig.setAdminAddress(jenkins_admin_email)
+locationConfig.save()
+
+instance = jenkins.model.Jenkins.getInstance()
+
+mailerDescriptor = instance.getDescriptorByType(hudson.tasks.Mailer.DescriptorImpl.class)
+mailerDescriptor.smtpHost = smtp_server
+mailerDescriptor.defaultSuffix = email_suffix
+mailerDescriptor.replyToAddress = jenkins_admin_email
+mailerDescriptor.save()
+
+extendedEmail = instance.getDescriptorByType(hudson.plugins.emailext.ExtendedEmailPublisherDescriptor.class)
+extendedEmail.defaultReplyTo = jenkins_admin_email
+extendedEmail.save()

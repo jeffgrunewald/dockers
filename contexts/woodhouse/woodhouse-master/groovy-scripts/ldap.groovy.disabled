@@ -1,0 +1,44 @@
+// Set up ldap so that authentication works without manual intervention
+
+jenkins = jenkins.model.Jenkins.getInstance()
+
+String server = System.getenv('LDAP_SERVER')
+String rootDN = System.getenv('ROOT_DN')
+String userSearchBase = ''
+String userSearch = 'uid={0}'
+String groupSearchBase = 'ou=groups'
+String groupSearchFilter = ''
+groupMembershipStrategy = new jenkins.security.plugins.ldap.FromGroupSearchLDAPGroupMembershipStrategy('')
+String managerDN = ''
+hudson.util.Secret managerPasswordSecret = hudson.util.Secret.fromString('')
+boolean inhibitInferRootDN = false
+boolean disableMailAddressResolver = false
+hudson.security.LDAPSecurityRealm.CacheConfiguration cache = null
+hudson.security.LDAPSecurityRealm.EnvironmentProperty[] environmentProperties = null
+String displayNameAttributeName = 'displayName'
+String mailAddressAttributeName = 'mail'
+jenkins.model.IdStrategy userIdStrategy = jenkins.model.IdStrategy.CASE_INSENSITIVE
+jenkins.model.IdStrategy groupIdStrategy = jenkins.model.IdStrategy.CASE_INSENSITIVE
+
+ldap_realm = new hudson.security.LDAPSecurityRealm(
+              server,
+              rootDN,
+              userSearchBase,
+              userSearch,
+              groupSearchBase,
+              groupSearchFilter,
+              groupMembershipStrategy,
+              managerDN,
+              managerPasswordSecret,
+              inhibitInferRootDN,
+              disableMailAddressResolver,
+              cache,
+              environmentProperties,
+              displayNameAttributeName,
+              mailAddressAttributeName,
+              userIdStrategy,
+              groupIdStrategy
+            )
+
+jenkins.setSecurityRealm(ldap_realm)
+jenkins.save()

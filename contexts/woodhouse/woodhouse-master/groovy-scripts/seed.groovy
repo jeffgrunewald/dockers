@@ -38,4 +38,4 @@ def createAndBuildSeedJob(seedJobDsl) {
 }
 
 createAndBuildSeedJob(new File("${jenkins_home}/seeds/dslSeed.groovy").newReader().text)
-createAndBuildSeedJob(new File("${jenkins_home}/seeds/fetchARug.groovy".newReader().text)
+createAndBuildSeedJob(new File("${jenkins_home}/seeds/fetchARug.groovy").newReader().text)

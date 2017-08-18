@@ -28,7 +28,7 @@ VOLUME ["/data/", "/usr/share/nginx/html"]
 WORKDIR /data
 
 COPY Dockerfile /opt/Dockerfile-jekyll
-
+COPY README.md /opt/README-jekyll.md
 CMD ["jekyll", "build", "--watch", "--destination=/usr/share/nginx/html"]
 
 LABEL cache_date=${cache_date} \

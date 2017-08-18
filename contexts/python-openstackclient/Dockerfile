@@ -1,5 +1,4 @@
 FROM alpine:3.4
-LABEL maintainer=jeff@grunewalddesign.com
 
 ARG client_version
 
@@ -40,3 +39,6 @@ CMD [ "/bin/sh" ]
 
 COPY Dockerfile /opt/Dockerfile-openstackcli
 COPY README.md /opt/README-openstackcli.md
+
+LABEL maintainer=jeff@grunewalddesign.com \
+      openstackclient_version=${client_version}

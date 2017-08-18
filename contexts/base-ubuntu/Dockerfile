@@ -2,7 +2,7 @@ FROM ubuntu:16.04
 
 ARG cache_date=2017-04-08
 
-ARG confd_version=0.11.0
+ARG confd_version=0.12.0
 ARG gosu_version=1.10
 ARG smellbaron_version=0.4.2
 

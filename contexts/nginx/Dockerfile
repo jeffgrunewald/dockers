@@ -14,6 +14,7 @@ RUN mkdir /run/nginx \
 COPY nginx.conf /etc/nginx/
 COPY nginx.default.conf /etc/nginx/conf.d/default.conf
 COPY Dockerfile /opt/Dockerfile-nginx
+COPY README.md /opt/README-nginx.md
 
 EXPOSE 80 443
 

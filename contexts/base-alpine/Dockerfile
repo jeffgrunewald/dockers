@@ -2,7 +2,7 @@ FROM alpine:3.6
 
 ARG cache_date=2017-07-10
 
-ARG confd_version=0.11.0
+ARG confd_version=0.12.0
 ARG gosu_version=1.10
 ARG smellbaron_version=0.4.2
 

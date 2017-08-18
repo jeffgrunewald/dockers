@@ -1,31 +1,3 @@
-require 'rake'
-require 'docker'
-require 'rspec/core/rake_task'
+import '../../Rakefile'
 
-REPOSITORY = 'jeffgrunewald/lunarwhale'
-IMAGE = 'openstackcli'
-
-task :default => :test
-
-desc 'Run Mk1 specs'
-RSpec::Core::RakeTask.new(:mk1_spec) do |t|
-  t.pattern = Dir.glob('spec/mk1*_spec.rb')
-  t.rspec_opts = '--color'
-end
-
-desc 'Run Mk2 specs'
-RSpec::Core::RakeTask.new(:mk2_spec) do |t|
-  t.pattern = Dir.glob('spec/mk2*_spec.rb')
-  t.rspec_opts = '--color'
-end
-
-desc 'Remove dangling docker images'
-task :cleanup do
-  system "docker image prune -f"
-end
-
-task :test => [
-       :mk1_spec,
-       :mk2_spec,
-       :cleanup
-     ]
+@name = 'python-openstackclient'

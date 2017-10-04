@@ -1,7 +1,7 @@
-require 'spec_helper'
+require_relative './spec_helper'
 
 shared_examples 'base::process' do
-  describe process("smell-baron") do
+  describe process("tini") do
     its(:user) { should eq "root" }
     its(:pid) { should eq 1 }
   end
@@ -23,7 +23,7 @@ shared_examples 'base::packages' do
   end
 
   describe command('confd --version 2>&1') do
-    its(:stdout) { should include 'confd 0.11.0' }
+    its(:stdout) { should include 'confd 0.13.0' }
   end
 
   describe command('gosu --version 2>&1') do
@@ -48,9 +48,6 @@ shared_examples 'base::files' do |image_name, env_vars|
     it { should be_file }
     it { should be_readable }
     its(:content) { should match File.read('README.md') }
-    env_vars.each_key do |var|
-      its(:content) { should match Regexp.escape(var) }
-    end
   end
 end
 

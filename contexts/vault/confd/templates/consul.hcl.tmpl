@@ -1,0 +1,8 @@
+backend "consul"
+  address = "{{ getv "/consul/address" }}:8500"
+}
+listener "tcp" {
+  address = "{{ getv "/vault/addr" }}:8200"
+  tls_disable = 1
+}
+disable_mlock = true

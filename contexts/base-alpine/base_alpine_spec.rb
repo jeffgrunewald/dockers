@@ -1,4 +1,5 @@
-require 'spec_helper'
+require_relative '../../shared_specs/base_alpine_specs'
+require_relative '../../shared_specs/spec_helper'
 
 image_name = 'base-alpine'
 env_vars = {}

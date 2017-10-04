@@ -1,7 +1,7 @@
-require 'spec_helper'
+require_relative './spec_helper'
 
 shared_examples 'base::process' do
-  describe process("/bin/smell-baron") do
+  describe process("/sbin/tini") do
     it { should be_running }
     its(:user) { should eq "root" }
     its(:pid) { should eq 1 }
@@ -16,7 +16,7 @@ shared_examples 'base::packages' do
   end
 
   describe command('confd --version 2>&1') do
-    its(:stdout) { should include 'confd 0.11.0' }
+    its(:stdout) { should include 'confd 0.13.0' }
   end
 
   describe command('gosu --version 2>&1') do

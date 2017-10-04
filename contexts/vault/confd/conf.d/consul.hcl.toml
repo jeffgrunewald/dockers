@@ -1,0 +1,7 @@
+[template]
+src = "consul.hcl.tmpl"
+dest = "/vault/config/consul.hcl"
+keys = [
+  "/consul/address",
+  "/vault/addr",
+]

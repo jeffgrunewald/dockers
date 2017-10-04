@@ -1,0 +1,3 @@
+import '../../Rakefile'
+
+@name = 'vault'

@@ -1,5 +1,9 @@
 require 'serverspec'
 require 'docker-api'
+require 'rspec/retry'
+
+Excon.defaults[:write_timeout] = 500
+Excon.defaults[:read_timeout] = 500
 
 def build_and_run_container(backend, command = nil)
   @image = Docker::Image.build_from_dir('.')

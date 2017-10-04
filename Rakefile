@@ -10,7 +10,7 @@ task :default => :test
 
 desc 'Run specs'
 RSpec::Core::RakeTask.new(:spec) do |t|
-  t.pattern = Dir.glob('spec/*_spec.rb')
+  t.pattern = Dir.glob('./*_spec.rb')
   t.rspec_opts = '--color'
 end
 
@@ -21,18 +21,26 @@ end
 
 desc 'Build the docker image'
 task :build, [:tag, :dockerfile] do |t, args|
-  args.with_defaults(tag: version)
-  system "docker build --force-rm=true --pull=true \
-    --label git_sha=#{sha} \
-    --tag=#{image}:#{args[:tag]} ."
+  if @name.nil?
+    abort "Image name is undefined; please specify in the image's Rakefile"
+  else
+    args.with_defaults(tag: version)
+    system "docker build --force-rm=true --pull=true \
+      --label git_sha=#{sha} \
+      --tag=#{image}:#{args[:tag]} ."
+  end
 end
 
 desc 'Re-tag the image for artifactory and push'
 task :push, [:tag] do |t, args|
-  args.with_defaults(
-    tag: %x[docker images #{image} --format \"\{\{.Tag\}\}\" | sort -r | head -1].strip
-  )
-  system "docker push #{image}:#{args[:tag]}"
+  if @name.nil?
+    abort "Image name is undefined; please specify in the image's Rakefile"
+  else
+    args.with_defaults(
+      tag: %x[docker images #{image} --format \"\{\{.Tag\}\}\" | sort -r | head -1].strip
+    )
+    system "docker push #{image}:#{args[:tag]}"
+  end
 end
 
 task :test => [
